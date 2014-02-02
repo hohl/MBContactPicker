@@ -19,8 +19,7 @@
 
 @optional
 
-- (NSArray *)contactModelsForContactPicker:(MBContactPicker*)contactPickerView;
-- (NSArray *)selectedContactModelsForContactPicker:(MBContactPicker*)contactPickerView;
+- (NSArray *)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter;
 
 @end
 
@@ -38,14 +37,13 @@
 
 @property (nonatomic, weak) id<MBContactPickerDelegate> delegate;
 @property (nonatomic, weak) id<MBContactPickerDataSource> datasource;
-@property (nonatomic, readonly) NSArray *contactsSelected;
+@property (nonatomic) NSArray *contactsSelected;
 @property (nonatomic) NSInteger cellHeight;
 @property (nonatomic, copy) NSString *prompt;
 @property (nonatomic) CGFloat maxVisibleRows;
 @property (nonatomic, readonly) CGFloat currentContentHeight;
 @property (nonatomic, readonly) CGFloat keyboardHeight;
 @property (nonatomic) CGFloat animationSpeed;
-@property (nonatomic) BOOL allowsCompletionOfSelectedContacts;
 @property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL showPrompt;
 

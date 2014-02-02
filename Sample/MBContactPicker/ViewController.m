@@ -13,7 +13,6 @@
 @interface ViewController () <MBContactPickerDataSource, MBContactPickerDelegate>
 
 @property (nonatomic) NSArray *contacts;
-@property (nonatomic) NSArray *selectedContacts;
 @property (weak, nonatomic) IBOutlet MBContactPicker *contactPickerView;
 @property (weak, nonatomic) IBOutlet UITextField *promptTextField;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *contactPickerViewHeightConstraint;
@@ -21,7 +20,8 @@
 - (IBAction)resignFirstResponder:(id)sender;
 - (IBAction)takeFirstResponder:(id)sender;
 - (IBAction)enabledSwitched:(id)sender;
-- (IBAction)completeDuplicatesSwitched:(id)sender;
+- (IBAction)clearSelectedButtonTouchUpInside:(id)sender;
+- (IBAction)addContactsButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -29,18 +29,18 @@
 
 - (IBAction)clearSelectedButtonTouchUpInside:(id)sender
 {
-    self.selectedContacts = @[];
+    self.contactPickerView.contactsSelected = @[];
     [self.contactPickerView reloadData];
 }
 
 - (IBAction)addContactsButtonTouchUpInside:(id)sender
 {
-    self.selectedContacts = @[
-                              self.contacts[0],
-                              self.contacts[1],
-                              self.contacts[2],
-                              self.contacts[3]
-                              ];
+    self.contactPickerView.contactsSelected = @[
+                                                self.contacts[0],
+                                                self.contacts[1],
+                                                self.contacts[2],
+                                                self.contacts[3]
+                                                ];
     
     [self.contactPickerView reloadData];
 }
@@ -82,14 +82,10 @@
 
 #pragma mark - MBContactPickerDataSource
 
-- (NSArray *)contactModelsForContactPicker:(MBContactPicker*)contactPickerView
+- (NSArray *)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter
 {
-    return self.contacts;
-}
-
-- (NSArray *)selectedContactModelsForContactPicker:(MBContactPicker*)contactPickerView
-{
-    return self.selectedContacts;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"contactTitle contains[cd] %@", filter];
+    return [self.contacts filteredArrayUsingPredicate:predicate];
 }
 
 #pragma mark - MBContactPickerDelegate
@@ -161,11 +157,6 @@
 - (IBAction)enabledSwitched:(id)sender
 {
     self.contactPickerView.enabled = ((UISwitch *)sender).isOn;
-}
-
-- (IBAction)completeDuplicatesSwitched:(id)sender
-{
-    self.contactPickerView.allowsCompletionOfSelectedContacts = ((UISwitch *)sender).isOn;
 }
 
 - (void)promptTextFieldDidChange:(UITextField *)textField
