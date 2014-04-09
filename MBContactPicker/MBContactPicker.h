@@ -15,11 +15,13 @@
 
 @class MBContactPicker;
 
+typedef void (^MBContactPickerCompletionHandler) (NSArray *results);
+
 @protocol MBContactPickerDataSource <NSObject>
 
 @optional
 
-- (void)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter completionHandler:(void (^)(NSArray *results))handler;
+- (void)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter completionHandler:(MBContactPickerCompletionHandler)handler;
 
 @end
 
