@@ -284,8 +284,10 @@ CGFloat const kAnimationSpeed = .25;
     {
         [self showSearchTableView];
         NSString *searchString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        self.filteredContacts = [self.datasource contactModelsForContactPicker:self withFilter:searchString];
-        [self.searchTableView reloadData];
+        [self.datasource contactModelsForContactPicker:self withFilter:searchString completionHandler:^(NSArray *filteredContacts) {
+            self.filteredContacts = filteredContacts;
+            [self.searchTableView reloadData];
+        }];
     }
 }
 

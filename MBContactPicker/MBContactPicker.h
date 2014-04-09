@@ -19,7 +19,7 @@
 
 @optional
 
-- (NSArray *)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter;
+- (void)contactModelsForContactPicker:(MBContactPicker*)contactPickerView withFilter:(NSString *)filter completionHandler:(void (^)(NSArray *results))handler;
 
 @end
 
